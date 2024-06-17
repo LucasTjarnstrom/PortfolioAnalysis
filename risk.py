@@ -27,7 +27,7 @@ class RiskEngine(Portfolio):
         """ Get the GARCH volatility """
         return self._garch_vol.iloc[-1]
     
-    
+    #TODO: Rewrite this 
     def prepare_sim(self):
         """ Load required data from the portfolio instance """
         
