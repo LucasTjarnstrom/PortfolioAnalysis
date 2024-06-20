@@ -244,7 +244,7 @@ class Portfolio:
         else:
             returns = self._portfolio_returns
         
-        var = self.value_at_risk(alpha)
+        var = self.historical_var(alpha)
         cvar = np.nanmean(returns[returns < var])
         return cvar
     
