@@ -113,6 +113,23 @@ def append_data(data: pd.DataFrame, fund: str, con):
 def drop_table(table: str, con):
     """ Drop table. """
     pd.read_sql_query("DROP TABLE '{ttable}'".format(ttable = table), con)
+
+
+def remove_duplicate_data(fund: str, con):
+    """ Removes duplicate data """
+    
+    data_to_save = pd.read_sql_query("WITH duplicate_data AS (SELECT *, ROW_NUMBER() "
+                                    " OVER (PARTITION BY date ORDER BY date DESC, ticker) rn "
+                                    " FROM fund_data WHERE ticker = '{}') SELECT * FROM duplicate_data where rn = 1".format(fund), C_DB)
+    
+    delete_from_table(fund, con)
+    
+    data_to_save.to_sql(
+        "fund_data", 
+        con, 
+        if_exists="append", 
+        index=False
+    )
     
 
     
