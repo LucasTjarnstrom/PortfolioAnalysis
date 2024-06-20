@@ -146,7 +146,6 @@ class Portfolio:
             data_frame = []
             for fund in self._holdings.keys():
                 data_frame.append(fund.get_returns())
-            print(data_frame)
             returns = pd.concat(data_frame, axis=1).dropna()
             self._returns = returns
             self._cum_returns = (returns+1).cumprod()
