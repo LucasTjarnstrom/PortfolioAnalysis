@@ -121,7 +121,7 @@ class Portfolio:
     def portfolio_returns(self, returns: pd.DataFrame) -> None:
         """ Concatenate portfolio holdings and calculate returns """
         
-        if np.sum(self._weights) - 1 > 1e5:
+        if abs(np.sum(self._weights) - 1) > 1e5:
             raise Exception("The weights must sum to 1 in order to calculate portfolio returns.")
         
         #self.calculate_returns()
