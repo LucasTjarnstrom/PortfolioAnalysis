@@ -121,7 +121,7 @@ class Portfolio:
     def portfolio_returns(self, returns: pd.DataFrame) -> None:
         """ Concatenate portfolio holdings and calculate returns """
         
-        if np.sum(self._weights) < 1:
+        if np.sum(self._weights) - 1 > 1e5:
             raise Exception("The weights must sum to 1 in order to calculate portfolio returns.")
         
         #self.calculate_returns()
@@ -146,6 +146,7 @@ class Portfolio:
             data_frame = []
             for fund in self._holdings.keys():
                 data_frame.append(fund.get_returns())
+            print(data_frame)
             returns = pd.concat(data_frame, axis=1).dropna()
             self._returns = returns
             self._cum_returns = (returns+1).cumprod()
@@ -569,5 +570,3 @@ class Asset(Portfolio):
     def update_data(self) -> None:
         """ Access database and save data """
         db.save_fund_data(self._name, db.C_DB)
-    
-    
